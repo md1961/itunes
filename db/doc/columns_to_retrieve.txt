@@ -1,0 +1,76 @@
+=> artists <=
+Artist:string  -> name
+Genre:string
+Sort Artist:string  -> sort_name
+
+=> albums <=
+Album:string  -> name
+Disc Number:integer  -> disc_number
+Disc Count:integer  -> num_discs
+Track Count:integer  -> num_tracks
+Volume Adjustment:integer  -> volume_adjustment
+
+=> album_traits <=
+Album Rating:integer  -> rating
+Album Rating Computed:boolean  -> is_rating_computed
+Compilation:boolean  -> is_compilation
+Artwork Count:integer  -> artwork_count
+Sort Album:string  -> sort_name
+Sort Album Artist:string
+
+=> tracks <=
+Track ID:integer  -> id(?)
+Name:string  -> name
+Artist:string  -> artist_id
+Album Artist:string  ===> Check discrepancy with 'Artist'!!
+Composer:string  -> composer
+Album:string  -> album_id
+
+=> track_traits <=
+Size:integer
+Total Time:integer
+Start Time:integer
+Track Number:integer
+Year:integer
+Comments:string
+Sort Composer:string
+Sort Name:string
+Persistent ID:string
+
+=> track_ratings <=
+Rating:integer  -> value(?)
+Rating Computed:boolean  -> is_computed
+
+=> track_formats <=
+Kind:string
+BPM:integer
+Date Modified:date
+Date Added:date
+Bit Rate:integer
+Sample Rate:integer
+Normalization:integer
+
+=> track_plays <=
+Play Count:integer
+Play Date:integer
+Play Date UTC:date
+Skip Count:integer
+Skip Date:date
+
+=> track_file <=
+Disabled:boolean
+Track Type:string
+Protected:boolean
+Purchased:boolean
+Has Video:boolean
+HD:boolean
+Video Width:integer
+Video Height:integer
+Music Video:boolean
+File Type:integer
+Location:string
+File Folder Count:integer
+Library Folder Count:integer
+
+---> not used <---
+Release Date:date

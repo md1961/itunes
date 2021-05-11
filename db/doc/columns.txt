@@ -1,0 +1,55 @@
+Track ID:integer
+Name:string
+Artist:string
+Album Artist:string
+Composer:string
+Album:string
+Genre:string
+Kind:string
+Size:integer
+Total Time:integer
+Start Time:integer
+Disc Number:integer
+Disc Count:integer
+Track Number:integer
+Track Count:integer
+Year:integer
+BPM:integer
+Date Modified:date
+Date Added:date
+Bit Rate:integer
+Sample Rate:integer
+Comments:string
+Volume Adjustment:integer
+Play Count:integer
+Play Date:integer
+Play Date UTC:date
+Skip Count:integer
+Skip Date:date
+Release Date:date
+Rating:integer
+Rating Computed:boolean
+Album Rating:integer
+Album Rating Computed:boolean
+Normalization:integer
+Sort Album Artist:string
+Compilation:boolean
+Artwork Count:integer
+Sort Album:string
+Sort Artist:string
+Sort Composer:string
+Sort Name:string
+Persistent ID:string
+Disabled:boolean
+Track Type:string
+Protected:boolean
+Purchased:boolean
+Has Video:boolean
+HD:boolean
+Video Width:integer
+Video Height:integer
+Music Video:boolean
+File Type:integer
+Location:string
+File Folder Count:integer
+Library Folder Count:integer
