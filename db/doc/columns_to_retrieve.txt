@@ -8,12 +8,13 @@ Album:string  -> name
 Disc Number:integer  -> disc_number
 Disc Count:integer  -> num_discs
 Track Count:integer  -> num_tracks
-Volume Adjustment:integer  -> volume_adjustment
+Compilation:boolean  -> is_compilation
 
-=> album_traits <=
+=> album_ratings <=
 Album Rating:integer  -> rating
 Album Rating Computed:boolean  -> is_rating_computed
-Compilation:boolean  -> is_compilation
+
+=> album_traits <=
 Artwork Count:integer  -> artwork_count
 Sort Album:string  -> sort_name
 Sort Album Artist:string
@@ -23,8 +24,11 @@ Track ID:integer  -> id(?)
 Name:string  -> name
 Artist:string  -> artist_id
 Album Artist:string  ===> Check discrepancy with 'Artist'!!
-Composer:string  -> composer
 Album:string  -> album_id
+
+=> track_ratings <=
+Rating:integer  -> value(?)
+Rating Computed:boolean  -> is_computed
 
 => track_traits <=
 Size:integer
@@ -32,14 +36,12 @@ Total Time:integer
 Start Time:integer
 Track Number:integer
 Year:integer
+Composer:string  -> composer
 Comments:string
 Sort Composer:string
 Sort Name:string
+Volume Adjustment:integer  -> volume_adjustment
 Persistent ID:string
-
-=> track_ratings <=
-Rating:integer  -> value(?)
-Rating Computed:boolean  -> is_computed
 
 => track_formats <=
 Kind:string
