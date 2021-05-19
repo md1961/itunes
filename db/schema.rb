@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_11_015746) do
+ActiveRecord::Schema.define(version: 2021_05_13_024801) do
+
+  create_table "albums", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "disc_number"
+    t.integer "num_discs"
+    t.integer "num_tracks"
+    t.boolean "is_compilation", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "artists", force: :cascade do |t|
     t.string "name", null: false
