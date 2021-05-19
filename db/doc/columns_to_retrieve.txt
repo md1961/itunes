@@ -22,6 +22,9 @@ Sort Album Artist:string
 => tracks <=
 Track ID:integer  -> id(?)
 Name:string  -> name
+Total Time:integer  -> total_time
+Track Number:integer  -> track_number
+Year:integer  -> year
 Artist:string  -> artist_id
 Album Artist:string  ===> Check discrepancy with 'Artist'!!
 Album:string  -> album_id
@@ -32,15 +35,11 @@ Rating Computed:boolean  -> is_computed
 
 => track_traits <=
 Size:integer
-Total Time:integer
 Start Time:integer
-Track Number:integer
-Year:integer
 Composer:string  -> composer
 Comments:string
 Sort Composer:string
 Sort Name:string
-Volume Adjustment:integer  -> volume_adjustment
 Persistent ID:string
 
 => track_formats <=
@@ -58,8 +57,9 @@ Play Date:integer
 Play Date UTC:date
 Skip Count:integer
 Skip Date:date
+Volume Adjustment:integer
 
-=> track_file <=
+=> track_files <=
 Disabled:boolean
 Track Type:string
 Protected:boolean
