@@ -14,6 +14,7 @@ ApplicationRecord.transaction do
   Track .destroy_all
   Album .destroy_all
   Artist.destroy_all
+  Genre .destroy_all
 end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
@@ -22,10 +23,12 @@ track_dict = tracks_key.xpath('following-sibling::dict'    ).first
 tracks     = track_dict.xpath('dict')
 
 tracks.each do |track|
+  genre_name = value_of('Genre', track)
+  genre = genre_name && Genre.find_or_create_by!(name: genre_name)
+
   artist_name = value_of('Artist', track)
   next unless artist_name
 
-  genre     = value_of('Genre'      , track)
   sort_name = value_of('Sort Artist', track)
 
   artist = Artist.find_or_create_by!(name: artist_name)
