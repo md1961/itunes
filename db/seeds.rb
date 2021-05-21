@@ -1,5 +1,15 @@
 def value_of(key, track)
-  track.xpath("key[.='#{key}']").first&.next_element&.text
+  track.xpath("key[.='#{key}']").first&.next_element.yield_self { |value_element|
+    if value_element.nil?
+      nil
+    else
+      if %w[true false].include?(value_element.name)
+        value_element.name == 'true'
+      else
+        value_element&.text
+      end
+    end
+  }
 end
 
 def update_for_non_nil!(model, attr_name, value)
@@ -28,10 +38,10 @@ tracks_key = xml_doc   .xpath("/plist/dict/key[.='Tracks']").first
 track_dict = tracks_key.xpath('following-sibling::dict'    ).first
 tracks     = track_dict.xpath('dict')
 
-num_tracks = tracks.size
+n_tracks = tracks.size
 
 tracks.each_with_index do |track, index|
-  print "  Processing tracks...: #{index + 1}/#{num_tracks}\r"
+  print "  Processing tracks...: #{index + 1}/#{n_tracks}\r"
 
   genre_name = value_of('Genre', track)
   genre = genre_name && Genre.find_or_create_by!(name: genre_name)
@@ -44,6 +54,23 @@ tracks.each_with_index do |track, index|
       Artist.find_or_create_by!(name: artist_name).tap { |artist|
         update_for_non_nil!(artist, :genre    , genre    )
         update_for_non_nil!(artist, :sort_name, sort_name)
+      }
+    end
+  }
+
+  album = value_of('Album', track).yield_self { |album_name|
+    if album_name.nil?
+      nil
+    else
+      disc_number    = value_of('Disc Number', track)
+      num_discs      = value_of('Disc Count' , track)
+      num_tracks     = value_of('Track Count', track)
+      is_compilation = value_of('Compilation', track)
+      Album.find_or_create_by!(name: album_name).tap { |album|
+        update_for_non_nil!(album, :disc_number   , disc_number   )
+        update_for_non_nil!(album, :num_discs     , num_discs     )
+        update_for_non_nil!(album, :num_tracks    , num_tracks    )
+        update_for_non_nil!(album, :is_compilation, is_compilation)
       }
     end
   }
