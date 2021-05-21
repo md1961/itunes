@@ -74,6 +74,19 @@ tracks.each_with_index do |track, index|
       }
     end
   }
+
+  track_name = value_of('Name', track)
+  next unless track_name
+  # TODO: Album Artist:string  ===> Check discrepancy with 'Artist'!!
+  Track.create!(
+    name:         track_name,
+    id:           value_of('Track ID'    , track),
+    total_time:   value_of('Total Time'  , track),
+    track_number: value_of('Track Number', track),
+    year:         value_of('Year'        , track),
+    artist:       artist,
+    album:        album
+  )
 end
 
 puts
