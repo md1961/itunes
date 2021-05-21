@@ -1,4 +1,4 @@
 class Track < ApplicationRecord
-  belongs_to :artist_id
-  belongs_to :album_id
+  belongs_to :artist, optional: true
+  belongs_to :album , optional: true
 end

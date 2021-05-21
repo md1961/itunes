@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 2021_05_19_001524) do
     t.integer "total_time"
     t.integer "track_number"
     t.integer "year"
-    t.integer "artist_id_id"
-    t.integer "album_id_id"
+    t.integer "artist_id"
+    t.integer "album_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["album_id_id"], name: "index_tracks_on_album_id_id"
-    t.index ["artist_id_id"], name: "index_tracks_on_artist_id_id"
+    t.index ["album_id"], name: "index_tracks_on_album_id"
+    t.index ["artist_id"], name: "index_tracks_on_artist_id"
   end
 
 end
