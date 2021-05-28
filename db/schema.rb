@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 2021_05_19_001524) do
     t.integer "num_discs"
     t.integer "num_tracks"
     t.boolean "is_compilation", default: false, null: false
+    t.integer "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["artist_id"], name: "index_albums_on_artist_id"
   end
 
   create_table "artists", force: :cascade do |t|
