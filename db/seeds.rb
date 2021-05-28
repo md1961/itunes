@@ -71,6 +71,7 @@ tracks.each_with_index do |track, index|
         update_for_non_nil!(album, :num_discs     , num_discs     )
         update_for_non_nil!(album, :num_tracks    , num_tracks    )
         update_for_non_nil!(album, :is_compilation, is_compilation)
+        update_for_non_nil!(album, :artist        , artist        )
       }
     end
   }
