@@ -76,3 +76,22 @@ Library Folder Count:integer
 
 ---> not used <---
 Release Date:date
+
+
+=> playlists <=
+Playlist ID:integer  --> id
+Name:string  --> name
+Playlist Persistent ID:string  --> persistent_id
+Parent Persistent ID:string  --> parent_persistent_id
+Description:string  --> description
+Folder:boolean  --> is_folder
+Smart Info (if exists)  --> is_smart_list
+Master:boolean  --> is_master
+Visible:boolean  --> is_visible
+All Items:boolean  --> is_all_items
+Distinguished Kind:integer  --> distinguished_kind
+Playlist Items ====>
+
+=> playlist_tracks <=
+playlist_id
+track_id
