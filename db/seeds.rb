@@ -1,5 +1,5 @@
-def value_of(key, track)
-  track.xpath("key[.='#{key}']").first&.next_element.yield_self { |value_element|
+def value_of(key, element)
+  element.xpath("key[.='#{key}']").first&.next_element.yield_self { |value_element|
     if value_element.nil?
       nil
     else
@@ -27,13 +27,15 @@ unless File.exist?(FILENAME)
 end
 
 ApplicationRecord.transaction do
-  Track .destroy_all
-  Album .destroy_all
-  Artist.destroy_all
-  Genre .destroy_all
+  Track   .destroy_all
+  Album   .destroy_all
+  Artist  .destroy_all
+  Genre   .destroy_all
+  Playlist.destroy_all
 end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
+
 tracks_key = xml_doc   .xpath("/plist/dict/key[.='Tracks']").first
 track_dict = tracks_key.xpath('following-sibling::dict'    ).first
 tracks     = track_dict.xpath('dict')
@@ -91,3 +93,23 @@ tracks.each_with_index do |track, index|
 end
 
 puts
+
+playlists_key  = xml_doc       .xpath("/plist/dict/key[.='Playlists']").first
+playlist_array = playlists_key .xpath('following-sibling::array'    ).first
+playlists      = playlist_array.xpath('dict')
+
+playlists.each do |playlist|
+  Playlist.create!(
+    id:                   value_of('Playlist ID'           , playlist),
+    name:                 value_of('Name'                  , playlist),
+    persistent_id:        value_of('Playlist Persistent ID', playlist),
+    parent_persistent_id: value_of('Parent Persistent ID'  , playlist),
+    description:          value_of('Description'           , playlist),
+    is_folder:            value_of('Folder'                , playlist) || false,
+    is_smart_list:        value_of('Smart Info'            , playlist) || false,
+    is_master:            value_of('Master'                , playlist) || false,
+    is_visible:           value_of('Visible'               , playlist) || true ,
+    is_all_items:         value_of('All Items'             , playlist) || false,
+    distinguished_kind:   value_of('Distinguished Kind'    , playlist),
+  )
+end
