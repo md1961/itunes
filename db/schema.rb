@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_001524) do
+ActiveRecord::Schema.define(version: 2021_06_09_011921) do
 
   create_table "albums", force: :cascade do |t|
     t.string "name", null: false
@@ -35,6 +35,21 @@ ActiveRecord::Schema.define(version: 2021_05_19_001524) do
 
   create_table "genres", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "persistent_id"
+    t.string "parent_persistent_id"
+    t.string "description"
+    t.boolean "is_folder", default: false, null: false
+    t.boolean "is_smart_list", default: false, null: false
+    t.boolean "is_master", default: false, null: false
+    t.boolean "is_visible", default: true, null: false
+    t.boolean "is_all_items", default: false, null: false
+    t.integer "distinguished_kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
