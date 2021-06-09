@@ -27,11 +27,12 @@ unless File.exist?(FILENAME)
 end
 
 ApplicationRecord.transaction do
-  Track   .destroy_all
-  Album   .destroy_all
-  Artist  .destroy_all
-  Genre   .destroy_all
-  Playlist.destroy_all
+  PlaylistTrack.destroy_all
+  Playlist     .destroy_all
+  Track        .destroy_all
+  Album        .destroy_all
+  Artist       .destroy_all
+  Genre        .destroy_all
 end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
@@ -98,10 +99,21 @@ playlists_key  = xml_doc       .xpath("/plist/dict/key[.='Playlists']").first
 playlist_array = playlists_key .xpath('following-sibling::array'    ).first
 playlists      = playlist_array.xpath('dict')
 
-playlists.each do |playlist|
+n_playlists = playlists.size
+
+PLAYLIST_NAMES_TO_SKIP = %w[ダウンロード済み ミュージック ライブラリ]
+
+playlists.each_with_index do |playlist, index|
+  print "  Processing playlists...: #{index + 1}/#{n_playlists}\r"
+
+  name = value_of('Name', playlist)
+  next if PLAYLIST_NAMES_TO_SKIP.include?(name)
+
+  playlist_tracks = playlist.xpath('array/dict')
+
   Playlist.create!(
     id:                   value_of('Playlist ID'           , playlist),
-    name:                 value_of('Name'                  , playlist),
+    name:                 name,
     persistent_id:        value_of('Playlist Persistent ID', playlist),
     parent_persistent_id: value_of('Parent Persistent ID'  , playlist),
     description:          value_of('Description'           , playlist),
@@ -111,5 +123,14 @@ playlists.each do |playlist|
     is_visible:           value_of('Visible'               , playlist) || true ,
     is_all_items:         value_of('All Items'             , playlist) || false,
     distinguished_kind:   value_of('Distinguished Kind'    , playlist),
-  )
+  ).tap { |playlist|
+    playlist_tracks.each.with_index(1) do |playlist_track, index|
+      playlist.playlist_tracks.create!(
+        track_id: value_of('Track ID', playlist_track),
+        ordering: index
+      )
+    end
+  }
 end
+
+puts
