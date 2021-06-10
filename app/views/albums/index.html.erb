@@ -3,13 +3,15 @@
 <h1>Albums#index</h1>
 
 <table>
-  <% @albums.each.with_index(2) do |album, index| -%>
-    <tr>
-      <td><%= index %></td>
-      <td><%= album.name %></td>
-      <td><%= album.artist %></td>
-    </tr>
-  <% end -%>
+  <tbody>
+    <% @albums.each.with_index(1) do |album, index| -%>
+      <tr>
+        <td class="numeric"><%= index %></td>
+        <td><%= album.name %></td>
+        <td><%= album.artist %></td>
+      </tr>
+    <% end -%>
+  </tbody>
 </table>
 
 </div>

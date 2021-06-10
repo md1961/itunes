@@ -2,3 +2,16 @@ body {
   font-family: "メイリオ", sans-serif;
   font-size: 12px;
 }
+
+
+td, th {
+  padding: 1px 2px;
+}
+
+.numeric {
+  text-align: right;
+}
+
+tbody tr:hover {
+  background-color: cyan;
+}
