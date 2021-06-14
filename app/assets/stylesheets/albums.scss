@@ -1,3 +1,15 @@
-// Place all the styles related to the albums controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+div.albums_index {
+  margin-left:10px;
+
+  div.albums_by_artist {
+    margin-top: 10px;
+
+    span.artist_name {
+      border-bottom: solid 1px black;
+    }
+
+    table {
+      margin-top: 3px;
+    }
+  }
+}

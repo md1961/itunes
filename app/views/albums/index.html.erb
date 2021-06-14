@@ -2,16 +2,23 @@
 
 <h1>Albums#index</h1>
 
-<table>
-  <tbody>
-    <% @albums.each.with_index(1) do |album, index| -%>
-      <tr>
-        <td class="numeric"><%= index %></td>
-        <td><%= album.name %></td>
-        <td><%= album.artist %></td>
-      </tr>
-    <% end -%>
-  </tbody>
-</table>
+<% @artists.each do |artist| -%>
+  <% albums = @albums_by_artist[artist]
+     next unless albums -%>
+  <div class="albums_by_artist">
+    <span class="artist_name"><%= artist %></span>
+    <table>
+      <tbody>
+        <% albums.each.with_index(1) do |album, index| -%>
+          <tr>
+            <td class="numeric"><%= index %></td>
+            <td                ><%= album.name %></td>
+            <td class="numeric"><%= album.year %></td>
+          </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+<% end -%>
 
 </div>
