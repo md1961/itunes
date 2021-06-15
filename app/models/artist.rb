@@ -6,15 +6,17 @@ class Artist < ApplicationRecord
 
   using StringJpExt
 
-  def sort_name
-    (super || name).downcase.to_hiragana
-  end
-
   def <=>(other)
-    sort_name <=> other.sort_name
+    sorter <=> other.sorter
   end
 
   def to_s
     name
   end
+
+  protected
+
+    def sorter
+      (sort_name || name).downcase.to_hiragana
+    end
 end
