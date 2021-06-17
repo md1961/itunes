@@ -17,6 +17,10 @@ class Album < ApplicationRecord
   protected
 
     def sorter
-      [year || 999999, name]
+      [
+        is_compilation ? -999999
+                       : year || 999999,
+        name
+      ]
     end
 end
