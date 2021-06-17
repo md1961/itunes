@@ -4,6 +4,8 @@ class Artist < ApplicationRecord
   belongs_to :genre, optional: true
   has_many :albums
 
+  COMPILATION = Artist.new(name: 'Compilation')
+
   using StringJpExt
 
   def <=>(other)
