@@ -10,4 +10,8 @@ class AlbumsController < ApplicationController
                                [artist || Artist::COMPILATION, albums.sort]
                              }.to_h
   end
+
+  def show
+    @album = Album.find(params[:id])
+  end
 end
