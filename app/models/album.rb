@@ -14,6 +14,10 @@ class Album < ApplicationRecord
     sorter <=> other.sorter
   end
 
+  def to_s
+    name
+  end
+
   protected
 
     def sorter
