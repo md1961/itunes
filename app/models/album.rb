@@ -10,6 +10,12 @@ class Album < ApplicationRecord
     tracks.pluck(:year).compact.max
   end
 
+  def albums_in_set
+    basename = name.sub(/\s*[(\[][^(\[]+[)\]]\z/, '')
+    albums = artist&.albums || Album.compilations
+    albums.where("name LIKE '#{basename}%'").sort_by(&:name)
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
@@ -24,7 +30,7 @@ class Album < ApplicationRecord
       [
         is_compilation ? -999999
                        : year || 999999,
-        name
+        name.sub(/\Athe /i, '')
       ]
     end
 end
