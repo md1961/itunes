@@ -15,6 +15,29 @@ td, th {
   text-align: right;
 }
 
+td.wide_link a {
+  display: block;
+}
+
 tbody tr:hover {
   background-color: cyan;
+}
+
+
+div.main_content {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+
+div.main_table {
+  margin-top: 10px;
+
+  span.caption {
+    border-bottom: solid 1px black;
+  }
+
+  table.main {
+    margin-top: 3px;
+  }
 }
