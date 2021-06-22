@@ -1,14 +1,5 @@
 <div class="albums_show">
 
-<span><%= @album %></span>
-<table>
-  <tbody>
-    <% @album.tracks.order(:track_number).each do |track| -%>
-      <tr>
-        <td class="numeric"><%= track.track_number %></td>
-        <td><%= track.name %></td>
-        <td class="numeric"><%= time_display(track.total_time) %></td>
-      </tr>
-    <% end -%>
-  </tbody>
+<%= render @album %>
+
 </div>
