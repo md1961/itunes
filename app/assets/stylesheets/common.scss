@@ -34,7 +34,13 @@ div.main_table {
   margin-top: 10px;
 
   span.caption {
-    border-bottom: solid 1px black;
+
+    &:before {
+      content: '==> ';
+    }
+    &:after {
+      content: ' <==';
+    }
   }
 
   table.main {

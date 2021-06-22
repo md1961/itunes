@@ -1,16 +1,18 @@
 <div class="albums_album">
 
-<span class="album_name"><%= album %></span>
-<table>
-  <tbody>
-    <% album.tracks.order(:track_number).each do |track| -%>
-      <tr>
-        <td class="numeric"><%= track.track_number %></td>
-        <td><%= track.name %></td>
-        <td class="numeric"><%= time_display(track.total_time) %></td>
-      </tr>
-    <% end -%>
-  </tbody>
-</table>
+<div class="main_table">
+  <span class="caption"><%= album %></span>
+  <table class="main">
+    <tbody>
+      <% album.tracks.order(:track_number).each do |track| -%>
+        <tr>
+          <td class="numeric"><%= track.track_number %></td>
+          <td><%= track.name %></td>
+          <td class="numeric"><%= time_display(track.total_time) %></td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+</div>
 
 </div>
