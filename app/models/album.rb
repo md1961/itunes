@@ -11,7 +11,7 @@ class Album < ApplicationRecord
   end
 
   def albums_in_set
-    basename = name.sub(/\s*[(\[][^(\[]+[)\]]\z/, '')
+    basename = name.sub(/(?:\s*[(\[][^(\[]+[)\]])+\z/, '')
     albums = artist&.albums || Album.compilations
     albums.where("name LIKE '#{basename}%'").sort_by(&:name)
   end
