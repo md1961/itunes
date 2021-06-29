@@ -6,7 +6,9 @@ class Artist < ApplicationRecord
 
   COMPILATION = Artist.new(name: 'Compilation')
 
-  using StringJpExt
+  def self.all_including_compilation
+    [Artist::COMPILATION] + Artist.all.sort
+  end
 
   def <=>(other)
     sorter <=> other.sorter
@@ -17,6 +19,8 @@ class Artist < ApplicationRecord
   end
 
   protected
+
+    using StringJpExt
 
     def sorter
       (sort_name || name).downcase.to_hiragana
