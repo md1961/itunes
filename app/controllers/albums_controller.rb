@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
 
   def index
-    @artists = [Artist::COMPILATION] + Artist.all.sort
+    @artists = Artist.all_including_compilation
 
     @albums_by_artist = Album.includes(:artist, :tracks)
                              .group_by(&:artist)
