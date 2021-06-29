@@ -8,6 +8,9 @@
         <tr>
           <td class="numeric"><%= track.track_number %></td>
           <td><%= track.name %></td>
+          <% if album.compilation? -%>
+            <td><%= track.artist %></td>
+          <% end -%>
           <td class="numeric"><%= time_display(track.total_time) %></td>
         </tr>
       <% end -%>
