@@ -5,20 +5,7 @@
 <% @artists.each do |artist| -%>
   <% albums = @albums_by_artist[artist]
      next unless albums -%>
-  <div class="main_table">
-    <span class="caption"><%= artist %></span>
-    <table class="main">
-      <tbody>
-        <% albums.each.with_index(1) do |album, index| -%>
-          <tr>
-            <td class="wide_link numeric"><%= link_to index, album %></td>
-            <td><%= album.name %></td>
-            <td class="numeric"><%= album.year %></td>
-          </tr>
-        <% end -%>
-      </tbody>
-    </table>
-  </div>
+  <%= render partial: 'albums', locals: {albums: albums, caption: artist.name} %>
 <% end -%>
 
 </div>

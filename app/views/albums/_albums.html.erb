@@ -1,0 +1,18 @@
+<div class="albums__albums">
+
+<div class="main_table">
+  <span class="caption"><%= caption %></span>
+  <table class="main">
+    <tbody>
+      <% albums.each.with_index(1) do |album, index| -%>
+        <tr>
+          <td class="wide_link numeric"><%= link_to index, album %></td>
+          <td><%= album.name %></td>
+          <td class="numeric"><%= album.year %></td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+</div>
+
+</div>
