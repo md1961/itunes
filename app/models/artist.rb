@@ -6,6 +6,10 @@ class Artist < ApplicationRecord
 
   COMPILATION = Artist.new(name: 'Compilation')
 
+  def COMPILATION.albums
+    Album.where(artist: nil)
+  end
+
   def self.all_including_compilation
     [COMPILATION] + Artist.all.sort
   end
