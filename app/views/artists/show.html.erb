@@ -1,0 +1,6 @@
+<div class="artists_show main_content">
+
+<%= render partial: 'albums/albums',
+           locals: {albums: @artist.albums.sort, caption: @artist.name} %>
+
+</div>
