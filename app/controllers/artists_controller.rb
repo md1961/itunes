@@ -6,6 +6,10 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = Artist.find(params[:id])
+    if params[:id].to_i.zero?
+      @artist = Artist::COMPILATION
+    else
+      @artist = Artist.find(params[:id])
+    end
   end
 end

@@ -7,7 +7,13 @@
     <tbody>
       <% @artists.each.with_index(1) do |artist, index| -%>
         <tr>
-          <td class="wide_link numeric"><%= link_to index, artist %></td>
+          <td class="wide_link numeric">
+            <% if artist.compilation? -%>
+              <%= link_to index, artist_path(id: 0) %>
+            <% else -%>
+              <%= link_to index, artist %>
+            <% end -%>
+          </td>
           <td><%= artist.name %></td>
         </tr>
       <% end -%>
