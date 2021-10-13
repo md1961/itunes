@@ -7,7 +7,11 @@ class Artist < ApplicationRecord
   COMPILATION = Artist.new(name: 'Compilation')
 
   def self.all_including_compilation
-    [Artist::COMPILATION] + Artist.all.sort
+    [COMPILATION] + Artist.all.sort
+  end
+
+  def compilation?
+    self == COMPILATION
   end
 
   def <=>(other)
