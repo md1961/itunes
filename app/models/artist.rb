@@ -11,7 +11,7 @@ class Artist < ApplicationRecord
   end
 
   def self.all_including_compilation
-    [COMPILATION] + Artist.all.sort
+    [COMPILATION] + Artist.eager_load(albums: :tracks).sort
   end
 
   def compilation?

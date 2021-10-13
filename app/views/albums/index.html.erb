@@ -3,8 +3,8 @@
 <h1>Albums#index</h1>
 
 <% @artists.each do |artist| -%>
-  <% albums = @albums_by_artist[artist]
-     next unless albums -%>
+  <% albums = artist.albums.sort
+     next if albums.empty? -%>
   <%= render partial: 'albums', locals: {albums: albums, caption: artist.name} %>
 <% end -%>
 
