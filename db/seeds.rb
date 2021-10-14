@@ -46,6 +46,8 @@ e_tracks     = e_track_dict.xpath('dict')
 
 n_tracks = e_tracks.size
 
+tracks = []
+
 e_tracks.each_with_index do |e_track, index|
   print "  Processing tracks...: #{index + 1}/#{n_tracks}\r"
 
@@ -85,7 +87,7 @@ e_tracks.each_with_index do |e_track, index|
   track_name = value_of('Name', e_track)
   next unless track_name
   # TODO: Album Artist:string  ===> Check discrepancy with 'Artist'!!
-  Track.create!(
+  tracks << Track.new(
     name:         track_name,
     id:           value_of('Track ID'    , e_track),
     total_time:   value_of('Total Time'  , e_track),
@@ -97,6 +99,10 @@ e_tracks.each_with_index do |e_track, index|
 end
 
 puts
+
+puts "  Bulk importing tracks..."
+Track.import tracks
+
 
 e_playlists_key  = xml_doc         .xpath("/plist/dict/key[.='Playlists']").first
 e_playlist_array = e_playlists_key .xpath('following-sibling::array'    )  .first
