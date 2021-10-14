@@ -1,3 +1,6 @@
+require 'activerecord-import'
+
+
 def value_of(key, element)
   element.xpath("key[.='#{key}']").first&.next_element.yield_self { |value_element|
     if value_element.nil?
@@ -37,7 +40,7 @@ end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
 
-e_tracks_key = xml_doc   .xpath("/plist/dict/key[.='Tracks']").first
+e_tracks_key = xml_doc     .xpath("/plist/dict/key[.='Tracks']").first
 e_track_dict = e_tracks_key.xpath('following-sibling::dict'    ).first
 e_tracks     = e_track_dict.xpath('dict')
 
@@ -95,8 +98,8 @@ end
 
 puts
 
-e_playlists_key  = xml_doc       .xpath("/plist/dict/key[.='Playlists']").first
-e_playlist_array = e_playlists_key .xpath('following-sibling::array'    ).first
+e_playlists_key  = xml_doc         .xpath("/plist/dict/key[.='Playlists']").first
+e_playlist_array = e_playlists_key .xpath('following-sibling::array'    )  .first
 e_playlists      = e_playlist_array.xpath('dict')
 
 n_playlists = e_playlists.size
@@ -108,8 +111,6 @@ e_playlists.each_with_index do |e_playlist, index|
 
   name = value_of('Name', e_playlist)
   next if PLAYLIST_NAMES_TO_SKIP.include?(name)
-
-  playlist_tracks = e_playlist.xpath('array/dict')
 
   Playlist.create!(
     id:                   value_of('Playlist ID'           , e_playlist),
@@ -124,12 +125,15 @@ e_playlists.each_with_index do |e_playlist, index|
     is_all_items:         value_of('All Items'             , e_playlist) || false,
     distinguished_kind:   value_of('Distinguished Kind'    , e_playlist),
   ).tap { |playlist|
-    playlist_tracks.each.with_index(1) do |playlist_track, index|
-      playlist.playlist_tracks.create!(
-        track_id: value_of('Track ID', playlist_track),
+    e_playlist_tracks = e_playlist.xpath('array/dict')
+    e_playlist_tracks_with_index = e_playlist_tracks.zip(1 .. e_playlist_tracks.size)
+    playlist_tracks = e_playlist_tracks_with_index.map { |e_playlist_track, index|
+      playlist.playlist_tracks.new(
+        track_id: value_of('Track ID', e_playlist_track),
         ordering: index
       )
-    end
+    }
+    PlaylistTrack.import playlist_tracks
   }
 end
 
