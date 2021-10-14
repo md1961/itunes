@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   resources :albums, only: %i[index show]
 
   resources :artists, only: %i[index show]
+
+  resources :playlists, only: %i[index show]
 end
