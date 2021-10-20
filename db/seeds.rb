@@ -13,12 +13,11 @@ class AlbumWithTracks
     @tracks << track
   end
 
-  def import_tracks
+  def tracks_to_import
     album_persisted = Album.find_by(name: album&.name)
-    @tracks.each do |track|
-      track.album = album_persisted
-    end
-    Track.import @tracks
+    @tracks.map { |track|
+      track.tap { |t| t.album = album_persisted }
+    }
   end
 end
 
@@ -40,9 +39,8 @@ class ListOfAlbumWithTracks
     albums = @list.map(&:album).compact
     Album.import albums
 
-    @list.each do |album_with_tracks|
-      album_with_tracks.import_tracks
-    end
+    tracks = @list.flat_map { |album_with_tracks| album_with_tracks.tracks_to_import }
+    Track.import tracks
   end
 end
 
