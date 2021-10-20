@@ -1,3 +1,50 @@
+require 'activerecord-import'
+
+
+class AlbumWithTracks
+  attr_reader :album
+
+  def initialize(album)
+    @album = album
+    @tracks = []
+  end
+
+  def add_track(track)
+    @tracks << track
+  end
+
+  def tracks_to_import
+    album_persisted = Album.find_by(name: album&.name)
+    @tracks.map { |track|
+      track.tap { |t| t.album = album_persisted }
+    }
+  end
+end
+
+class ListOfAlbumWithTracks
+
+  def initialize
+    @list = []
+  end
+
+  def find_by_album(album)
+    @list.reverse.find { |album_with_tracks|
+      album_with_tracks.album&.name == album&.name
+    } || AlbumWithTracks.new(album).tap { |album_with_tracks|
+      @list << album_with_tracks
+    }
+  end
+
+  def import
+    albums = @list.map(&:album).compact
+    Album.import albums
+
+    tracks = @list.flat_map { |album_with_tracks| album_with_tracks.tracks_to_import }
+    Track.import tracks
+  end
+end
+
+
 def value_of(key, element)
   element.xpath("key[.='#{key}']").first&.next_element.yield_self { |value_element|
     if value_element.nil?
@@ -26,6 +73,8 @@ unless File.exist?(FILENAME)
   exit
 end
 
+print "  Initializing..."
+
 ApplicationRecord.transaction do
   PlaylistTrack.destroy_all
   Playlist     .destroy_all
@@ -37,11 +86,15 @@ end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
 
-e_tracks_key = xml_doc   .xpath("/plist/dict/key[.='Tracks']").first
+e_tracks_key = xml_doc     .xpath("/plist/dict/key[.='Tracks']").first
 e_track_dict = e_tracks_key.xpath('following-sibling::dict'    ).first
 e_tracks     = e_track_dict.xpath('dict')
 
 n_tracks = e_tracks.size
+
+list_of_albums_with_tracks = ListOfAlbumWithTracks.new
+
+puts
 
 e_tracks.each_with_index do |e_track, index|
   print "  Processing tracks...: #{index + 1}/#{n_tracks}\r"
@@ -69,47 +122,57 @@ e_tracks.each_with_index do |e_track, index|
       num_discs      = value_of('Disc Count' , e_track)
       num_tracks     = value_of('Track Count', e_track)
       is_compilation = value_of('Compilation', e_track)
-      Album.find_or_create_by!(name: album_name).tap { |album|
-        update_for_non_nil!(album, :disc_number   , disc_number   )
-        update_for_non_nil!(album, :num_discs     , num_discs     )
-        update_for_non_nil!(album, :num_tracks    , num_tracks    )
-        update_for_non_nil!(album, :is_compilation, is_compilation)
-        update_for_non_nil!(album, :artist        , artist        ) unless is_compilation
+      Album.new(
+        name:           album_name,
+        disc_number:    disc_number,
+        num_discs:      num_discs,
+        num_tracks:     num_tracks,
+        is_compilation: is_compilation || false
+      ).tap { |album|
+        album.artist = artist unless is_compilation
       }
     end
   }
+  #next unless album
+
+  album_with_tracks = list_of_albums_with_tracks.find_by_album(album)
 
   track_name = value_of('Name', e_track)
   next unless track_name
   # TODO: Album Artist:string  ===> Check discrepancy with 'Artist'!!
-  Track.create!(
-    name:         track_name,
-    id:           value_of('Track ID'    , e_track),
-    total_time:   value_of('Total Time'  , e_track),
-    track_number: value_of('Track Number', e_track),
-    year:         value_of('Year'        , e_track),
-    artist:       artist,
-    album:        album
+  album_with_tracks.add_track(
+    Track.new(
+      name:         track_name,
+      id:           value_of('Track ID'    , e_track),
+      total_time:   value_of('Total Time'  , e_track),
+      track_number: value_of('Track Number', e_track),
+      year:         value_of('Year'        , e_track),
+      artist:       artist
+    )
   )
 end
 
 puts
 
-e_playlists_key  = xml_doc       .xpath("/plist/dict/key[.='Playlists']").first
-e_playlist_array = e_playlists_key .xpath('following-sibling::array'    ).first
+print "  Bulk importing albums and tracks..."
+
+list_of_albums_with_tracks.import
+
+puts
+
+e_playlists_key  = xml_doc         .xpath("/plist/dict/key[.='Playlists']").first
+e_playlist_array = e_playlists_key .xpath('following-sibling::array'    )  .first
 e_playlists      = e_playlist_array.xpath('dict')
 
 n_playlists = e_playlists.size
 
-PLAYLIST_NAMES_TO_SKIP = %w[ダウンロード済み ミュージック ライブラリ]
+PLAYLIST_NAMES_TO_SKIP = %w[ダウンロード済み ミュージック ライブラリ]# Music\ Videos]
 
 e_playlists.each_with_index do |e_playlist, index|
   print "  Processing playlists...: #{index + 1}/#{n_playlists}\r"
 
   name = value_of('Name', e_playlist)
   next if PLAYLIST_NAMES_TO_SKIP.include?(name)
-
-  playlist_tracks = e_playlist.xpath('array/dict')
 
   Playlist.create!(
     id:                   value_of('Playlist ID'           , e_playlist),
@@ -124,12 +187,15 @@ e_playlists.each_with_index do |e_playlist, index|
     is_all_items:         value_of('All Items'             , e_playlist) || false,
     distinguished_kind:   value_of('Distinguished Kind'    , e_playlist),
   ).tap { |playlist|
-    playlist_tracks.each.with_index(1) do |playlist_track, index|
-      playlist.playlist_tracks.create!(
-        track_id: value_of('Track ID', playlist_track),
+    e_playlist_tracks = e_playlist.xpath('array/dict')
+    e_playlist_tracks_with_index = e_playlist_tracks.zip(1 .. e_playlist_tracks.size)
+    playlist_tracks = e_playlist_tracks_with_index.map { |e_playlist_track, index|
+      playlist.playlist_tracks.new(
+        track_id: value_of('Track ID', e_playlist_track),
         ordering: index
       )
-    end
+    }
+    PlaylistTrack.import playlist_tracks
   }
 end
 
