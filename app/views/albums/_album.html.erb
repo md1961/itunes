@@ -14,6 +14,17 @@
           <td class="numeric"><%= time_display(track.total_time) %></td>
         </tr>
       <% end -%>
+
+      <% if album.tracks.size >= 2 -%>
+        <tr>
+          <td />
+          <% if album.compilation? -%>
+            <td />
+          <% end -%>
+          <td class="numeric">total</td>
+          <td class="numeric"><%= time_display(album.total_time) %></td>
+        </tr>
+      <% end -%>
     </tbody>
   </table>
 </div>
