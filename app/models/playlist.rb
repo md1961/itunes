@@ -10,6 +10,10 @@ class Playlist < ApplicationRecord
     true
   end
 
+  def total_time
+    tracks.pluck(:total_time).compact.sum
+  end
+
   def to_s
     name
   end
