@@ -10,6 +10,10 @@ class Album < ApplicationRecord
     tracks.pluck(:year).compact.max
   end
 
+  def total_time
+    tracks.pluck(:total_time).compact.sum
+  end
+
   def albums_in_set
     basename = name.sub(/(?:\s*[(\[][^(\[]+[)\]])+\z/, '')
     albums = artist&.albums || Album.compilations
