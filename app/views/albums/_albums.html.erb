@@ -9,6 +9,7 @@
           <td class="wide_link numeric"><%= link_to index, album %></td>
           <td><%= album.name %></td>
           <td class="numeric"><%= album.year %></td>
+          <td class="numeric"><%= time_display(album.total_time) %></td>
         </tr>
       <% end -%>
     </tbody>
