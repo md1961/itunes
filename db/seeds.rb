@@ -1,4 +1,5 @@
-require 'activerecord-import'
+require 'activerecord-import/base'
+require 'activerecord-import/active_record/adapters/postgresql_adapter'
 
 
 class AlbumWithTracks
@@ -133,7 +134,6 @@ e_tracks.each_with_index do |e_track, index|
       }
     end
   }
-  #next unless album
 
   album_with_tracks = list_of_albums_with_tracks.find_by_album(album)
 

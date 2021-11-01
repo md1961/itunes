@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2021_06_09_044800) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "albums", force: :cascade do |t|
     t.string "name", null: false
     t.integer "disc_number"
     t.integer "num_discs"
     t.integer "num_tracks"
     t.boolean "is_compilation", default: false, null: false
-    t.integer "artist_id"
+    t.bigint "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["artist_id"], name: "index_albums_on_artist_id"
@@ -26,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_044800) do
 
   create_table "artists", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "genre_id"
+    t.bigint "genre_id"
     t.string "sort_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -40,8 +43,8 @@ ActiveRecord::Schema.define(version: 2021_06_09_044800) do
   end
 
   create_table "playlist_tracks", force: :cascade do |t|
-    t.integer "playlist_id"
-    t.integer "track_id"
+    t.bigint "playlist_id"
+    t.bigint "track_id"
     t.integer "ordering", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,12 +72,16 @@ ActiveRecord::Schema.define(version: 2021_06_09_044800) do
     t.integer "total_time"
     t.integer "track_number"
     t.integer "year"
-    t.integer "artist_id"
-    t.integer "album_id"
+    t.bigint "artist_id"
+    t.bigint "album_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["album_id"], name: "index_tracks_on_album_id"
     t.index ["artist_id"], name: "index_tracks_on_artist_id"
   end
 
+  add_foreign_key "playlist_tracks", "playlists"
+  add_foreign_key "playlist_tracks", "tracks"
+  add_foreign_key "tracks", "albums"
+  add_foreign_key "tracks", "artists"
 end
