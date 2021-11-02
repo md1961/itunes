@@ -41,7 +41,9 @@ class ListOfAlbumWithTracks
     Album.import albums
 
     tracks = @list.flat_map { |album_with_tracks| album_with_tracks.tracks_to_import }
+    track_ratings = tracks.map(&:track_rating)
     Track.import tracks
+    TrackRating.import track_ratings
   end
 end
 
@@ -148,7 +150,12 @@ e_tracks.each_with_index do |e_track, index|
       track_number: value_of('Track Number', e_track),
       year:         value_of('Year'        , e_track),
       artist:       artist
-    )
+    ).tap { |track|
+      track.build_track_rating(
+        value:       value_of('Rating'         , e_track),
+        is_computed: value_of('Rating Computed', e_track) || false
+      )
+    }
   )
 end
 
