@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_044800) do
+ActiveRecord::Schema.define(version: 2021_11_01_231206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,15 @@ ActiveRecord::Schema.define(version: 2021_06_09_044800) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "track_ratings", force: :cascade do |t|
+    t.bigint "track_id"
+    t.integer "value"
+    t.boolean "is_computed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["track_id"], name: "index_track_ratings_on_track_id"
+  end
+
   create_table "tracks", force: :cascade do |t|
     t.string "name", null: false
     t.integer "total_time"
@@ -82,6 +91,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_044800) do
 
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
+  add_foreign_key "track_ratings", "tracks"
   add_foreign_key "tracks", "albums"
   add_foreign_key "tracks", "artists"
 end
