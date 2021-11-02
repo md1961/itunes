@@ -8,6 +8,7 @@
         <tr>
           <td class="numeric"><%= track.track_number %></td>
           <td><%= track.name %></td>
+          <td><%= rating_display(track) %></td>
           <% if album.compilation? -%>
             <td><%= track.artist %></td>
           <% end -%>
