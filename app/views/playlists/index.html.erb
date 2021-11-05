@@ -1,7 +1,5 @@
 <div class="playlists_index main_content">
 
-<h1>Playlists#index</h1>
-
 <% @playlists.each do |playlist| -%>
   <%= render partial: 'albums/album', locals: {album: playlist} %>
 <% end -%>

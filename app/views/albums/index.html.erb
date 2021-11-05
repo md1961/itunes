@@ -1,7 +1,5 @@
 <div class="albums_index main_content">
 
-<h1>Albums#index</h1>
-
 <% @artists.each do |artist| -%>
   <% albums = artist.albums.sort
      next if albums.empty? -%>
