@@ -1,0 +1,12 @@
+div.top_bar {
+  margin-top: 5px;
+  margin-left: 5px;
+
+  span.tab {
+    margin-left: 5px;
+
+    span.current {
+      font-weight: bold;
+    }
+  }
+}

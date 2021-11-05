@@ -1,0 +1,9 @@
+<div class="top_bar">
+  <% %w[albums artists playlists].each do |resource| -%>
+    <span class="tab">
+      <%= link_to_unless_current resource.titleize, send("#{resource}_path") do |label|
+            content_tag :span, label, class: 'current'
+          end %>
+    </span>
+  <% end -%>
+</div>
