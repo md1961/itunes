@@ -15,7 +15,7 @@ class AlbumWithTracks
   end
 
   def tracks_to_import
-    album_persisted = Album.find_by(name: album&.name)
+    album_persisted = Album.find_by(name: album&.name, artist: album&.artist)
     @tracks.map { |track|
       track.tap { |t| t.album = album_persisted }
     }
@@ -30,7 +30,11 @@ class ListOfAlbumWithTracks
 
   def find_by_album(album)
     @list.reverse.find { |album_with_tracks|
-      album_with_tracks.album&.name == album&.name
+      album_with_tracks.album&.name == album&.name \
+        && (    album.nil? \
+            ||  album.is_compilation \
+            || (album_with_tracks.album&.artist&.name == album.artist.name)
+           )
     } || AlbumWithTracks.new(album).tap { |album_with_tracks|
       @list << album_with_tracks
     }
