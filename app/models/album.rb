@@ -4,6 +4,8 @@ class Album < ApplicationRecord
   belongs_to :artist, optional: true
   has_many :tracks, -> { order(:track_number) }
 
+  validates :name, presence: true, uniqueness: {scope: :artist}
+
   scope :compilations, -> { where(is_compilation: true) }
 
   def year
