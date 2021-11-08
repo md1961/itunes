@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_08_011009) do
+ActiveRecord::Schema.define(version: 2021_11_08_012049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "album_label_lookups", force: :cascade do |t|
+    t.bigint "album_pointer_id"
+    t.bigint "album_label_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_label_id"], name: "index_album_label_lookups_on_album_label_id"
+    t.index ["album_pointer_id"], name: "index_album_label_lookups_on_album_pointer_id"
+  end
 
   create_table "album_labels", force: :cascade do |t|
     t.string "name"
@@ -102,6 +111,8 @@ ActiveRecord::Schema.define(version: 2021_11_08_011009) do
     t.index ["artist_id"], name: "index_tracks_on_artist_id"
   end
 
+  add_foreign_key "album_label_lookups", "album_labels"
+  add_foreign_key "album_label_lookups", "album_pointers"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "track_ratings", "tracks"
