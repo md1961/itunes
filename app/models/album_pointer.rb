@@ -1,0 +1,2 @@
+class AlbumPointer < ApplicationRecord
+end
