@@ -81,6 +81,7 @@ print "  Initializing..."
 ApplicationRecord.transaction do
   PlaylistTrack.destroy_all
   Playlist     .destroy_all
+  TrackRating  .destroy_all
   Track        .destroy_all
   Album        .destroy_all
   Artist       .destroy_all
