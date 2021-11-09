@@ -30,6 +30,14 @@ class Album < ApplicationRecord
     pointer.albums_labels
   end
 
+  def put_label(album_label)
+    unless album_label.is_a?(Albums::Label)
+      raise ArgumentError, "Argument must be an Albums::Label (#{album_label.class} given)"
+    end
+    return if labels.include?(album_label)
+    pointer.albums_label_lookups.create!(albums_label: album_label)
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
