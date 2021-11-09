@@ -1,2 +1,18 @@
 div.albums_index {
 }
+
+div.albums_show {
+
+  div.labels {
+
+    span.label {
+      padding: 0 3px;
+      border: black solid 1px;
+      margin-right: 5px;
+    }
+  }
+
+  div.form {
+    margin-top: 10px;
+  }
+}

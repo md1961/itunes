@@ -2,6 +2,10 @@
 
 <%= render @albums %>
 
-<%= form_to_put_label_for(@albums.first) %>
+<%= labels_display(@albums.first) %>
+
+<div class="form">
+  <%= form_to_put_label_for(@albums.first) %>
+</div>
 
 </div>
