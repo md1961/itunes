@@ -22,6 +22,10 @@ class Album < ApplicationRecord
     albums.where("name LIKE ?", "#{basename}%").sort_by(&:name)
   end
 
+  def pointer
+    Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
