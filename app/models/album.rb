@@ -26,6 +26,10 @@ class Album < ApplicationRecord
     Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
   end
 
+  def labels
+    pointer.albums_labels
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
