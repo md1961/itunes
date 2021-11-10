@@ -11,8 +11,8 @@ class AlbumsController < ApplicationController
 
   def put_label
     album = Album.find(params[:id])
-    label = Albums::Label.find(params[:label_id])
-    album.put_label(label)
+    label = Albums::Label.find_by(id: params[:label_id])
+    album.put_label(label) if label
     redirect_to album
   end
 end
