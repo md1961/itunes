@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :albums, only: %i[index show] do
     member do
-      patch :put_label
+      patch :put_label, :remove_label
     end
   end
 
