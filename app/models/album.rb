@@ -30,12 +30,20 @@ class Album < ApplicationRecord
     pointer.albums_labels
   end
 
-  def put_label(album_label)
-    unless album_label.is_a?(Albums::Label)
-      raise ArgumentError, "Argument must be an Albums::Label (#{album_label.class} given)"
+  def put_label(label)
+    unless label.is_a?(Albums::Label)
+      raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
-    return if labels.include?(album_label)
-    pointer.albums_label_lookups.create!(albums_label: album_label)
+    return if labels.include?(label)
+    pointer.albums_label_lookups.create!(albums_label: label)
+  end
+
+  def remove_label(label)
+    unless label.is_a?(Albums::Label)
+      raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
+    end
+    return unless labels.include?(label)
+    pointer.albums_label_lookups.find_by(albums_label: label).destroy
   end
 
   def <=>(other)
