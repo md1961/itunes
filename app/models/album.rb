@@ -22,11 +22,8 @@ class Album < ApplicationRecord
     albums.where("name LIKE ?", "#{basename}%").sort_by(&:name)
   end
 
-  def pointer
-    Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
-  end
-
   def labels
+    return [] unless pointer_exists?
     pointer.albums_labels
   end
 
@@ -63,4 +60,15 @@ class Album < ApplicationRecord
         name.sub(/\Athe /i, '')
       ]
     end
+
+  private
+
+    def pointer_exists?
+      Albums::Pointer.exists?(artist_name: artist&.name, album_name: name)
+    end
+
+    def pointer
+      Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
+    end
+
 end
