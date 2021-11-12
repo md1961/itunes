@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2021_11_09_003429) do
 
   create_table "albums_pointers", force: :cascade do |t|
     t.string "artist_name"
-    t.string "album_name"
+    t.string "album_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
