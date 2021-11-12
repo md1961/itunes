@@ -23,8 +23,7 @@ class Album < ApplicationRecord
   end
 
   def labels
-    return [] unless pointer_exists?
-    pointer.albums_labels
+    pointer&.albums_labels || []
   end
 
   def put_label(label)
@@ -32,7 +31,7 @@ class Album < ApplicationRecord
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return if labels.include?(label)
-    pointer.albums_label_lookups.create!(albums_label: label)
+    pointer_or_create.albums_label_lookups.create!(albums_label: label)
   end
 
   def remove_label(label)
@@ -40,7 +39,7 @@ class Album < ApplicationRecord
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return unless labels.include?(label)
-    pointer.albums_label_lookups.find_by(albums_label: label).destroy
+    pointer_or_create.albums_label_lookups.find_by(albums_label: label).destroy
   end
 
   def <=>(other)
@@ -63,11 +62,11 @@ class Album < ApplicationRecord
 
   private
 
-    def pointer_exists?
-      Albums::Pointer.exists?(artist_name: artist&.name, album_name: name)
+    def pointer
+      Albums::Pointer.find_by(artist_name: artist&.name, album_name: name)
     end
 
-    def pointer
+    def pointer_or_create
       Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
     end
 
