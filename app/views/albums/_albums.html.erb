@@ -10,6 +10,7 @@
           <td><%= album.name %></td>
           <td class="numeric"><%= album.year %></td>
           <td class="numeric"><%= time_display(album.total_time) %></td>
+          <td><%= labels_display(album) %></td>
         </tr>
       <% end -%>
     </tbody>

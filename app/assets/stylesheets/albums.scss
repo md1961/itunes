@@ -1,3 +1,9 @@
+span.label {
+  padding: 0 3px;
+  border: black solid 1px;
+  margin-right: 0;
+}
+
 div.albums_index {
 }
 
@@ -7,12 +13,6 @@ div.albums_show {
 
     span.label_with_link {
       margin-right: 10px;
-
-      span.label {
-        padding: 0 3px;
-        border: black solid 1px;
-        margin-right: 0;
-      }
 
       a {
         color: black;
