@@ -22,7 +22,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: itunes_test
+  username: itunes
+  password: itun2021
+  host: localhost
 
 production:
   <<: *default
