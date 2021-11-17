@@ -22,6 +22,26 @@ class Album < ApplicationRecord
     albums.where("name LIKE ?", "#{basename}%").sort_by(&:name)
   end
 
+  def labels
+    pointer&.albums_labels || []
+  end
+
+  def put_label(label)
+    unless label.is_a?(Albums::Label)
+      raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
+    end
+    return if labels.include?(label)
+    pointer_or_create.albums_label_lookups.create!(albums_label: label)
+  end
+
+  def remove_label(label)
+    unless label.is_a?(Albums::Label)
+      raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
+    end
+    return unless labels.include?(label)
+    pointer_or_create.albums_label_lookups.find_by(albums_label: label).destroy
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
@@ -39,4 +59,15 @@ class Album < ApplicationRecord
         name.sub(/\Athe /i, '')
       ]
     end
+
+  private
+
+    def pointer
+      Albums::Pointer.find_by(artist_name: artist&.name, album_name: name)
+    end
+
+    def pointer_or_create
+      Albums::Pointer.find_or_create_by!(artist_name: artist&.name, album_name: name)
+    end
+
 end
