@@ -1,7 +1,9 @@
 <div class="top_bar">
   <% %w[albums artists playlists].each do |resource| -%>
+    <% path = send("#{resource}_path")
+       is_current = current_page?(path) || (request.path == root_path && resource == 'albums') -%>
     <span class="tab">
-      <%= link_to_unless_current resource.titleize, send("#{resource}_path") do |label|
+      <%= link_to_unless is_current, resource.titleize, path do |label|
             content_tag :span, label, class: 'current'
           end %>
     </span>
