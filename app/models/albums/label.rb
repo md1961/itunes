@@ -5,4 +5,8 @@ class Albums::Label < ApplicationRecord
   def albums
     albums_pointers.map(&:album)
   end
+
+  def to_s
+    name.titleize
+  end
 end

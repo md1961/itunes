@@ -1,0 +1,7 @@
+<div class="albums_labels_index">
+
+<% @labels.each do |label| -%>
+  <%= render partial: 'albums/albums',
+             locals: {albums: label.albums, shows_artist: true, caption: label} %>
+<% end -%>
+</div>

@@ -1,5 +1,7 @@
 <div class="albums__albums">
 
+<% shows_artist = false unless defined?(shows_artist) -%>
+
 <div class="main_table">
   <span class="caption"><%= caption %></span>
   <table class="main">
@@ -8,6 +10,9 @@
         <tr>
           <td class="wide_link numeric"><%= link_to index, album %></td>
           <td><%= album.name %></td>
+          <% if shows_artist -%>
+            <td><%= album.artist %></td>
+          <% end -%>
           <td class="numeric"><%= album.year %></td>
           <td class="numeric"><%= time_display(album.total_time) %></td>
           <td><%= labels_display(album) %></td>
