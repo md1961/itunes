@@ -6,4 +6,8 @@ class Track < ApplicationRecord
   def rating
     track_rating&.value_real
   end
+
+  def rated?
+    rating && rating > 0
+  end
 end
