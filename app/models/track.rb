@@ -4,6 +4,6 @@ class Track < ApplicationRecord
   has_one :track_rating
 
   def rating
-    track_rating&.value
+    track_rating&.value_real
   end
 end
