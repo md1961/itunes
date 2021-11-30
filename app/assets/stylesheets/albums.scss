@@ -30,3 +30,14 @@ div.albums_show {
     margin-top: 10px;
   }
 }
+
+div.albums_albums {
+
+  td.num_tracks {
+    text-align: right;
+
+    &:after {
+      content: "曲";
+    }
+  }
+}
