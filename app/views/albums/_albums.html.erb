@@ -15,6 +15,7 @@
           <% end -%>
           <td class="numeric"><%= album.year %></td>
           <td class="numeric"><%= time_display(album.total_time) %></td>
+          <td class="num_tracks_rated"><%= album.num_tracks_rated %></td>
           <td class="num_tracks"><%= album.tracks.size %></td>
           <td><%= labels_display(album) %></td>
         </tr>

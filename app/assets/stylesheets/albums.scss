@@ -35,9 +35,21 @@ div.albums_albums {
 
   td.num_tracks {
     text-align: right;
+    padding-left: 0;
 
     &:after {
       content: "曲";
+    }
+  }
+
+  td.num_tracks_rated {
+
+    &:before {
+      content: "☆ ";
+    }
+
+    &:after {
+      content: "曲 /";
     }
   }
 }
