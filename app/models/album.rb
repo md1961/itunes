@@ -22,6 +22,10 @@ class Album < ApplicationRecord
     albums.where("name LIKE ?", "#{basename}%").sort_by(&:name)
   end
 
+  def num_tracks_rated
+    tracks.count(&:rated?)
+  end
+
   def labels
     pointer&.albums_labels || []
   end
