@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'albums#index'
+  root 'welcome#index'
+
+  get 'welcome/index'
 
   namespace :albums do
     resources :labels, only: %i[index show]
