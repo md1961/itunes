@@ -11,6 +11,8 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+/db/pg_dump*.sql
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
