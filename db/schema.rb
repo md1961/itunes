@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_09_003429) do
+ActiveRecord::Schema.define(version: 2023_01_18_023612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 2021_11_09_003429) do
     t.bigint "albums_label_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "albums_labelings", force: :cascade do |t|
+    t.bigint "album_id"
+    t.bigint "albums_label_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_id"], name: "index_albums_labelings_on_album_id"
+    t.index ["albums_label_id"], name: "index_albums_labelings_on_albums_label_id"
   end
 
   create_table "albums_labels", force: :cascade do |t|
@@ -112,6 +121,8 @@ ActiveRecord::Schema.define(version: 2021_11_09_003429) do
 
   add_foreign_key "albums_label_lookups", "albums_labels"
   add_foreign_key "albums_label_lookups", "albums_pointers"
+  add_foreign_key "albums_labelings", "albums"
+  add_foreign_key "albums_labelings", "albums_labels"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "track_ratings", "tracks"
