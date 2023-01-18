@@ -10,6 +10,13 @@ class AlbumWithTracks
     @tracks = []
   end
 
+  def match?(album)
+    return false unless self.album&.name == album&.name
+    return true if album.nil?
+    return true if album.is_compilation
+    self.album&.artist&.name == album.artist&.name
+  end
+
   def add_track(track)
     @tracks << track
   end
@@ -30,11 +37,7 @@ class ListOfAlbumWithTracks
 
   def find_by_album(album)
     @list.reverse.find { |album_with_tracks|
-      album_with_tracks.album&.name == album&.name \
-        && (    album.nil? \
-            ||  album.is_compilation \
-            || (album_with_tracks.album&.artist&.name == album.artist.name)
-           )
+      album_with_tracks.match?(album)
     } || AlbumWithTracks.new(album).tap { |album_with_tracks|
       @list << album_with_tracks
     }
