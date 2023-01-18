@@ -33,7 +33,7 @@ class Album < ApplicationRecord
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return if labels.include?(label)
-    pointer_or_create.albums_label_lookups.create!(albums_label: label)
+    labels << label
   end
 
   def remove_label(label)
@@ -41,7 +41,7 @@ class Album < ApplicationRecord
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return unless labels.include?(label)
-    pointer_or_create.albums_label_lookups.find_by(albums_label: label).destroy
+    albums_labelings.find_by(label: label).destroy
   end
 
   def <=>(other)
