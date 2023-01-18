@@ -28,10 +28,6 @@ class Album < ApplicationRecord
     tracks.count(&:rated?)
   end
 
-  #def labels
-  #  pointer&.albums_labels || []
-  #end
-
   def put_label(label)
     unless label.is_a?(Albums::Label)
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
