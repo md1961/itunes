@@ -3,6 +3,8 @@ class Album < ApplicationRecord
 
   belongs_to :artist, optional: true
   has_many :tracks, -> { order(:track_number) }
+  has_many :albums_labelings, class_name: 'Albums::Labeling'
+  has_many :labels, through: :albums_labelings
 
   validates :name, presence: true, uniqueness: {scope: :artist}
 
@@ -26,9 +28,9 @@ class Album < ApplicationRecord
     tracks.count(&:rated?)
   end
 
-  def labels
-    pointer&.albums_labels || []
-  end
+  #def labels
+  #  pointer&.albums_labels || []
+  #end
 
   def put_label(label)
     unless label.is_a?(Albums::Label)
