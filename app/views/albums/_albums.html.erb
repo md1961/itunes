@@ -6,7 +6,10 @@
 -%>
 
 <div class="main_table">
-  <span class="caption"><%= caption %></span>
+  <% if caption -%>
+    <span class="caption"><%= caption %></span>
+  <% end -%>
+
   <table class="main">
     <tbody>
       <% albums.each.with_index(1) do |album, index| -%>
