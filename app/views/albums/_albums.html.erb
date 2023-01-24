@@ -1,6 +1,9 @@
 <div class="albums_albums">
 
-<% shows_artist = false unless defined?(shows_artist) -%>
+<%
+  shows_artist   = false unless defined?(shows_artist)
+  uses_base_name = false unless defined?(uses_base_name)
+-%>
 
 <div class="main_table">
   <span class="caption"><%= caption %></span>
@@ -9,7 +12,7 @@
       <% albums.each.with_index(1) do |album, index| -%>
         <tr>
           <td class="wide_link numeric"><%= link_to index, album %></td>
-          <td><%= album.name %></td>
+          <td><%= uses_base_name ? album.base_name : album.name %></td>
           <% if shows_artist -%>
             <td><%= album.artist %></td>
           <% end -%>
