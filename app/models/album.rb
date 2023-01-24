@@ -18,10 +18,13 @@ class Album < ApplicationRecord
     tracks.pluck(:total_time).compact.sum
   end
 
+  def base_name
+    name.sub(/(?:\s*[(\[][^(\[]+[)\]])+\z/, '')
+  end
+
   def albums_in_set
-    basename = name.sub(/(?:\s*[(\[][^(\[]+[)\]])+\z/, '')
     albums = artist&.albums || Album.compilations
-    albums.where("name LIKE ?", "#{basename}%").sort_by(&:name)
+    albums.where("name LIKE ?", "#{base_name}%").sort_by(&:name)
   end
 
   def num_tracks_rated
