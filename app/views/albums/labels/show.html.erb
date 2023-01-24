@@ -1,7 +1,5 @@
 <div class="albums_labels_show">
 
-<%= render partial: 'albums/albums',
-           locals: {albums: @label.albums, caption: nil,
-                    shows_artist: true, uses_base_name: true} %>
+<%= render @label %>
 
 </div>
