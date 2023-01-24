@@ -7,4 +7,13 @@
           end %>
     </span>
   <% end -%>
+
+  <% %w[CD LP].each do |label_name| -%>
+    <% album_label = Albums::Label.find_by(name: label_name) -%>
+    <span class="tab">
+      <%= link_to_unless_current label_name, album_label do |label_name|
+            content_tag :span, label_name, class: 'current'
+          end %>
+    </span>
+  <% end -%>
 </div>
