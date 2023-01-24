@@ -44,7 +44,7 @@ class ListOfAlbumWithTracks
   end
 
   def import
-    albums = @list.map(&:album).compact
+    albums = @list.map(&:album).compact.reject(&:persisted?)
     Album.import albums
 
     tracks = @list.flat_map { |album_with_tracks| album_with_tracks.tracks_to_import }
@@ -90,9 +90,6 @@ ApplicationRecord.transaction do
   Playlist     .destroy_all
   TrackRating  .destroy_all
   Track        .destroy_all
-  Album        .destroy_all
-  Artist       .destroy_all
-  Genre        .destroy_all
 end
 
 xml_doc = File.open(FILENAME) { |f| Nokogiri::XML::Document.parse(f) }
@@ -132,15 +129,13 @@ e_tracks.each_with_index do |e_track, index|
       disc_number    = value_of('Disc Number', e_track)
       num_discs      = value_of('Disc Count' , e_track)
       num_tracks     = value_of('Track Count', e_track)
-      is_compilation = value_of('Compilation', e_track)
-      Album.new(
-        name:           album_name,
-        disc_number:    disc_number,
-        num_discs:      num_discs,
-        num_tracks:     num_tracks,
-        is_compilation: is_compilation || false
-      ).tap { |album|
-        album.artist = artist unless is_compilation
+      is_compilation = value_of('Compilation', e_track) || false
+      album_artist = is_compilation ? nil : artist
+      Album.find_or_create_by!(name: album_name, artist: album_artist).tap { |album|
+        update_for_non_nil!(album, :disc_number   , disc_number   )
+        update_for_non_nil!(album, :num_discs     , num_discs     )
+        update_for_non_nil!(album, :num_tracks    , num_tracks    )
+        update_for_non_nil!(album, :is_compilation, is_compilation)
       }
     end
   }

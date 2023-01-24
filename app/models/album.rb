@@ -3,6 +3,8 @@ class Album < ApplicationRecord
 
   belongs_to :artist, optional: true
   has_many :tracks, -> { order(:track_number) }
+  has_many :albums_labelings, class_name: 'Albums::Labeling'
+  has_many :labels, through: :albums_labelings
 
   validates :name, presence: true, uniqueness: {scope: :artist}
 
@@ -26,16 +28,12 @@ class Album < ApplicationRecord
     tracks.count(&:rated?)
   end
 
-  def labels
-    pointer&.albums_labels || []
-  end
-
   def put_label(label)
     unless label.is_a?(Albums::Label)
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return if labels.include?(label)
-    pointer_or_create.albums_label_lookups.create!(albums_label: label)
+    labels << label
   end
 
   def remove_label(label)
@@ -43,7 +41,7 @@ class Album < ApplicationRecord
       raise ArgumentError, "Argument must be an Albums::Label (#{label.class} given)"
     end
     return unless labels.include?(label)
-    pointer_or_create.albums_label_lookups.find_by(albums_label: label).destroy
+    albums_labelings.find_by(label: label).destroy
   end
 
   def <=>(other)
