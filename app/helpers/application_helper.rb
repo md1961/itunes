@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def labels_display(album)
     content_tag :div, class: 'labels' do
-      album.labels.map { |label|
+      album.labels.sort.map { |label|
         concat content_tag(:span, class: 'label_with_link') {
           concat content_tag :span, label.name, class: 'label'
           concat link_to('x', remove_label_album_path(album, label_id: label),
