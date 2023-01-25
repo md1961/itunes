@@ -31,6 +31,6 @@ class Artist < ApplicationRecord
     using StringJpExt
 
     def sorter
-      (sort_name || name).downcase.to_hiragana
+      compilation? ? '____' : (sort_name || name).downcase.to_hiragana
     end
 end
