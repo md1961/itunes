@@ -4,6 +4,10 @@ class Albums::Label < ApplicationRecord
 
   scope :all_for_action_index, -> { where("name NOT IN (?)", %w[CD LP]) }
 
+  def <=>(other)
+    self.ordering <=> other.ordering
+  end
+
   def to_s
     name =~ /\A[A-Z]+\z/ ? name : name.titleize
   end
