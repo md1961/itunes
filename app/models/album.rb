@@ -47,6 +47,10 @@ class Album < ApplicationRecord
     albums_labelings.find_by(label: label).destroy
   end
 
+  def ==(other)
+    artist == other&.artist && name == other&.name
+  end
+
   def <=>(other)
     sorter <=> other.sorter
   end
