@@ -5,6 +5,19 @@ span.label {
 }
 
 div.albums_index {
+
+  div.tab_index {
+    margin-top: 10px;
+    margin-left: 10px;
+
+    a, span {
+      margin-right: 5px;
+
+      &.current {
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 div.albums_show {

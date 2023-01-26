@@ -1,7 +1,16 @@
 class AlbumsController < ApplicationController
 
   def index
-    @artists = Artist.all_including_compilation
+    @artist_initial_ranges = ArtistInitialRange.all
+    @initial_range = params[:initial_range].yield_self { |name|
+      if name.nil?
+        @artist_initial_ranges.first
+      else
+        @artist_initial_ranges.detect { |range|
+          range.name == name
+        }
+      end
+    }
   end
 
   def show

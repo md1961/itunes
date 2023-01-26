@@ -1,6 +1,16 @@
 <div class="albums_index main_content">
 
-<% @artists.each do |artist| -%>
+<div class="tab_index">
+  <% @artist_initial_ranges.each do |initial_range| -%>
+    <%= link_to_unless initial_range == @initial_range,
+      initial_range, albums_path(initial_range: initial_range) do
+        content_tag :span, initial_range, class: 'current'
+      end
+    %>
+  <% end -%>
+</div>
+
+<% @initial_range.artists.sort.each do |artist| -%>
   <% albums = artist.albums.sort
      next if albums.empty? -%>
   <%= render partial: 'albums', locals: {albums: albums, caption: artist.name} %>
