@@ -64,7 +64,7 @@ class Album < ApplicationRecord
     def sorter
       [
         is_compilation ? Artist::COMPILATION : artist,
-        year || 999999,
+        is_compilation ? 0 : (year || 999999),
         name.sub(/\Athe /i, '')
       ]
     end
