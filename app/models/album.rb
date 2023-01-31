@@ -27,6 +27,10 @@ class Album < ApplicationRecord
     albums.where("name LIKE ?", "#{base_name}%").sort_by(&:name)
   end
 
+  def subsequent?
+    self != albums_in_set.first
+  end
+
   def num_tracks_rated
     tracks.count(&:rated?)
   end
