@@ -1,14 +1,6 @@
 <div class="albums_index main_content">
 
-<div class="tab_index">
-  <% @artist_initial_ranges.each do |initial_range| -%>
-    <%= link_to_unless initial_range == @initial_range,
-      initial_range, albums_path(initial_range: initial_range) do
-        content_tag :span, initial_range, class: 'current'
-      end
-    %>
-  <% end -%>
-</div>
+<%= render 'tabnavi_for_artist_initial_ranges' %>
 
 <% @initial_range.artists.sort.each do |artist| -%>
   <% albums = artist.albums.sort

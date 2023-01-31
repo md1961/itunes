@@ -4,20 +4,20 @@ span.label {
   margin-right: 0;
 }
 
-div.albums_index {
+div.tabnavi_for_artist_initial_ranges {
+  margin-top: 10px;
+  margin-left: 10px;
 
-  div.tab_index {
-    margin-top: 10px;
-    margin-left: 10px;
+  a, span {
+    margin-right: 5px;
 
-    a, span {
-      margin-right: 5px;
-
-      &.current {
-        font-weight: bold;
-      }
+    &.current {
+      font-weight: bold;
     }
   }
+}
+
+div.albums_index {
 }
 
 div.albums_show {
