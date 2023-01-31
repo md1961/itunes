@@ -1,0 +1,34 @@
+<div class="albums_labels_edit main_content">
+
+<div class="title">
+  <%= "Editing album label '#{@label}'..." %>
+</div>
+
+<%= render partial: 'albums/tabnavi_for_artist_initial_ranges',
+            locals: {path_name: 'edit_albums_label_path'} %>
+
+<% albums_labeled = @label.albums -%>
+
+<% @initial_range.artists.sort.each do |artist| -%>
+  <% albums = artist.albums.reject(&:subsequent?).sort
+     next if albums.empty? -%>
+
+  <div id="label_id" class="main_table" data-label-id="<%= @label.id %>">
+    <span class="caption"><%= artist %></span>
+    <table class="main">
+      <tbody>
+        <% albums.each do |album| -%>
+          <tr>
+            <td>
+              <%= check_box_tag :toggle_label, true, albums_labeled.include?(album),
+                                {data: {album_id: album.id}} %>
+            </td>
+            <td><%= album.base_name %></td>
+          </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+<% end -%>
+
+</div>
