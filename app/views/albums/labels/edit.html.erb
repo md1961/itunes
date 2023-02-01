@@ -2,6 +2,7 @@
 
 <div class="title">
   <%= "Editing album label '#{@label}'..." %>
+  <%= link_to 'Back', @label %>
 </div>
 
 <%= render partial: 'albums/tabnavi_for_artist_initial_ranges',
@@ -30,5 +31,9 @@
     </table>
   </div>
 <% end -%>
+
+<div class="action">
+  <%= link_to 'Back', @label %>
+</div>
 
 </div>
