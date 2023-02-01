@@ -1,8 +1,9 @@
 <div class="albums_index main_content">
 
-<%= render 'tabnavi_for_artist_initial_ranges' %>
+<%= render partial: 'tab_navi_for_artists',
+            locals: {tab_navi: @tab_navi_for_artists} %>
 
-<% @initial_range.artists.sort.each do |artist| -%>
+<% @tab_navi_for_artists.current_artists.sort.each do |artist| -%>
   <% albums = artist.albums.sort
      next if albums.empty? -%>
   <%= render partial: 'albums', locals: {albums: albums, caption: artist.name} %>

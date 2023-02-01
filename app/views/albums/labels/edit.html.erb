@@ -5,17 +5,20 @@
   <%= link_to 'Back', @label %>
 </div>
 
-<%= render partial: 'albums/tabnavi_for_artist_initial_ranges',
-            locals: {path_name: 'edit_albums_label_path'} %>
+<%= render partial: 'albums/tab_navi_for_artists',
+            locals: {tab_navi: @tab_navi_for_artists, path_name: 'edit_albums_label_path'} %>
 
 <% albums_labeled = @label.albums -%>
 
-<% @initial_range.artists.sort.each do |artist| -%>
+<% @tab_navi_for_artists.current_artists.sort.each do |artist| -%>
   <% albums = artist.albums.reject(&:subsequent?).sort
      next if albums.empty? -%>
 
   <div id="label_id" class="main_table" data-label-id="<%= @label.id %>">
-    <span class="caption"><%= artist %></span>
+    <% unless artist.compilation? -%>
+      <span class="caption"><%= artist %></span>
+    <% end -%>
+
     <table class="main">
       <tbody>
         <% albums.each do |album| -%>

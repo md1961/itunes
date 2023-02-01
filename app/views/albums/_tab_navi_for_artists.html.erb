@@ -1,0 +1,14 @@
+<%
+  unless defined?(path_name)
+    path_name = 'albums_path'
+  end
+-%>
+
+<div class="tab_navi_for_artists">
+  <% tab_navi.all_initial_ranges.each do |initial_range| -%>
+    <%= link_to_unless initial_range == tab_navi.current_initial_range,
+                       initial_range, send(path_name, initial_range: initial_range) do
+          content_tag :span, initial_range, class: 'current'
+        end %>
+  <% end -%>
+</div>

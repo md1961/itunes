@@ -9,7 +9,7 @@ class Albums::LabelsController < ApplicationController
   end
 
   def edit
-    @artist_initial_ranges, @initial_range = prepare_artist_initial_ranges
+    @tab_navi_for_artists = TabNaviForArtists.new(params[:initial_range])
   end
 
   def add_album
