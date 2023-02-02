@@ -19,6 +19,10 @@ class Album < ApplicationRecord
   end
 
   def base_name
+    if name =~ /\A(\([^()\[\]]+\))/
+      return $1
+    end
+
     name.sub(/(?:\s*[(\[][^(\[]+[)\]])+\z/, '')
   end
 
