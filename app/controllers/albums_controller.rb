@@ -1,7 +1,9 @@
 class AlbumsController < ApplicationController
 
   def index
-    @tab_navi_for_artists = TabNaviForArtists.new(params[:initial_range])
+    initial_range_name = retrieve_artist_initial_range_name
+    @tab_navi_for_artists = TabNaviForArtists.new(initial_range_name)
+    store_artist_initial_range_name(initial_range_name)
   end
 
   def show
