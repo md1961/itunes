@@ -24,10 +24,12 @@
         <% albums.each do |album| -%>
           <tr>
             <td>
-              <%= check_box_tag :toggle_label, true, albums_labeled.include?(album),
-                                {data: {album_id: album.id}} %>
+              <%= check_box_tag "toggle_label_#{album.id}", true, albums_labeled.include?(album),
+                                class: 'toggle_label', data: {album_id: album.id} %>
             </td>
-            <td><%= album.base_name %></td>
+            <td>
+              <%= label_tag "toggle_label_#{album.id}", album.base_name %>
+            </td>
           </tr>
         <% end -%>
       </tbody>
