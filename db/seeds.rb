@@ -210,8 +210,3 @@ e_playlists.each_with_index do |e_playlist, index|
 end
 
 puts
-
-
-%w[masterpiece favorite to\ be\ listened unfamiliar].each do |name|
-  Albums::Label.find_or_create_by!(name: name)
-end
