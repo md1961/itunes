@@ -3,7 +3,7 @@ class Album < ApplicationRecord
 
   belongs_to :artist, optional: true
   has_many :tracks, -> { order(:track_number) }
-  has_many :albums_labelings, class_name: 'Albums::Labeling'
+  has_many :albums_labelings, class_name: 'Albums::Labeling', dependent: :destroy
   has_many :labels, through: :albums_labelings
 
   validates :name, presence: true, uniqueness: {scope: :artist}
