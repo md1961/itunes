@@ -101,6 +101,7 @@ e_tracks     = e_track_dict.xpath('dict')
 n_tracks = e_tracks.size
 
 list_of_albums_with_tracks = ListOfAlbumWithTracks.new
+albums_created = []
 
 puts
 
@@ -131,7 +132,9 @@ e_tracks.each_with_index do |e_track, index|
       num_tracks     = value_of('Track Count', e_track)
       is_compilation = value_of('Compilation', e_track) || false
       album_artist = is_compilation ? nil : artist
-      Album.find_or_create_by!(name: album_name, artist: album_artist).tap { |album|
+      Album.find_or_create_by!(name: album_name, artist: album_artist) { |album|
+        albums_created << album
+      }.tap { |album|
         update_for_non_nil!(album, :disc_number   , disc_number   )
         update_for_non_nil!(album, :num_discs     , num_discs     )
         update_for_non_nil!(album, :num_tracks    , num_tracks    )
@@ -209,4 +212,7 @@ e_playlists.each_with_index do |e_playlist, index|
   }
 end
 
+puts
+puts "#{albums_created.size} Album(s) created:"
+puts "  '#{albums_created.map(&:name).join("', '")}'" unless albums_created.empty?
 puts
