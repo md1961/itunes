@@ -2,6 +2,8 @@
 
 <% caption = Albums::Label.all_for_action_index.include?(label) ? label : nil -%>
 
+<% label = Albums::Label::CLASSICAL if label.name == 'Classical' -%>
+
 <%= render partial: 'albums/albums',
            locals: {albums: label.albums.sort, caption: caption,
                     shows_artist: true, uses_base_name: true} %>

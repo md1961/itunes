@@ -20,4 +20,12 @@
           end %>
     </span>
   <% end -%>
+
+  <% album_label = Albums::Label::CLASSICAL
+     label_name = album_label.name -%>
+  <span class="tab">
+    <%= link_to_unless_current label_name, album_label do |label_name|
+          content_tag :span, label_name, class: 'current'
+        end %>
+  </span>
 </div>
