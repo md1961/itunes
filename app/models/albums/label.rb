@@ -4,6 +4,11 @@ class Albums::Label < ApplicationRecord
 
   scope :all_for_action_index, -> { where("name NOT IN (?)", %w[CD LP]) }
 
+  CLASSICAL = find_by(name: 'Classical')
+  def CLASSICAL.albums
+    Genre.find_by(name: 'Classical').artists.flat_map(&:albums)
+  end
+
   def <=>(other)
     self.ordering <=> other.ordering
   end
